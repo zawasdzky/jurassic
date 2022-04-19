@@ -8,14 +8,13 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class=" bg-black text-white">
 
-<div class="container-fluid p-5 bg-primary text-white text-center">
-  <h1>JURASSIC TITLE</h1>
-  <p>Subtitle</p> 
+<div class="container-fluid p-3 bg-black text-white text-center ">
+  <img src="https://phantom-marca.unidadeditorial.es/2a815b0a6f676d55d7403f7285db1b4e/resize/828/f/webp/assets/multimedia/imagenes/2022/02/11/16445345407827.jpg" class="img-fluid" alt="..." width="30%">
 </div>
   
-<div class="container mt-5">
+<div class="container mt-2">
 
   <form id="uploadForm" action="server/upload.php" method="POST" enctype="multipart/form-data">
     <div class="row">
@@ -47,7 +46,7 @@
       </div>
 
       <div class="col-md-6 mb-3">
-        <label for="fileToUpload" class="form-label">Poster</label>
+        <label for="fileToUpload" class="form-label">Poster (max 1MB) </label>
         <input class="form-control form-control" id="fileToUpload" name="fileToUpload" onchange="validateSize(this)"  type="file"  accept="image/gif, image/jpeg, image/png"/ required>
       </div>
     </div>
@@ -59,9 +58,10 @@
           <label class="form-check-label" for="exampleCheck1">Acepto politicas</label>
         </div> -->
         <img src="server/loading.gif" id="loading" alt="loading" width="40" >
-       
       </div> 
-      <button type="submit" id="submit" class="btn btn-primary">Enviar</button>
+      <div class="d-grid gap-2">
+        <button type="submit" id="submit" class="btn btn-warning btn-lg">ENVIAR</button>
+      </div>
     </div>
   </form>
 
@@ -80,7 +80,7 @@ $( "#uploadForm" ).submit(function( event ) {
   function validateSize(input) {
   const fileSize = input.files[0].size / 1024 / 1024; // in MiB
   if (fileSize > 2) {
-    alert('El archivo excede los 2MB');
+    alert('Error: El archivo debe pesar menos de: 1MB');
     $('#fileToUpload').val(''); 
   } 
 }

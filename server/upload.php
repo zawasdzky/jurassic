@@ -19,25 +19,26 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
   // Check if file already exists
   if (file_exists($target_file)) {
-    $message = "Error: el archivo ya existe";
+    $message = "Error: el archivo ya existe debe subirlo con otro nombre";
     $uploadOk = false;
   }
 
-  // Check file size
-  if ($_FILES["fileToUpload"]["size"] > 200000) {
-    $message ="Sorry, your file is too large.";
+  // Check file size 2MB
+  if ($_FILES["fileToUpload"]["size"] > 2000000) {
+    $message ="Error: El archivo exece 2MB.";
     $uploadOk = false;
   }
 
   // Allow certain file formats
   if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-    $message ="error solo se permiten archivos jpg.";
+    $message ="Error sólo se permiten archivos jpg.";
     $uploadOk = false;
   }
 
   if ($uploadOk) {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-      $message = "El poster: <strong>" . htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). "</strong> ha sido cargado exitosamente.";
+      $message = "El poster: <strong>" . htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). "</strong> ha sido cargado exitosamente. <br>
+      En cuanto sea aprobado será publicado.";
       $userInsert = "INSERT INTO `users` (`name`, `email`, `document`, `city`, `phone`) VALUES ('$name', '$email', '$document', '$city', '$phone')";
       $conn->query($userInsert);
       $last_id = mysqli_insert_id($conn);
@@ -62,16 +63,15 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class=" bg-black text-white">
 
-<div class="container-fluid p-5 bg-primary text-white text-center">
-  <h1>JURASSIC TITLE</h1>
-  <p>Subtitle</p> 
+<div class="container-fluid p-3 bg-black text-white text-center ">
+  <img src="https://phantom-marca.unidadeditorial.es/2a815b0a6f676d55d7403f7285db1b4e/resize/828/f/webp/assets/multimedia/imagenes/2022/02/11/16445345407827.jpg" class="img-fluid" alt="..." width="20%">
 </div>
   
-<div class="container mt-5">
-  <p><?php echo $message; ?></p>
-  <a href="../posters.php" class="btn btn-primary">Ver publicaciones</a>
+<div class="container mt-5 text-center">
+  <h2 class="m-5"><?php echo $message; ?></h2>
+  <a href="../posters.php" class="btn btn-warning btn-lg">Ver publicaciones</a>
 </div>
 
 </body>

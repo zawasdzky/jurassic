@@ -40,15 +40,20 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
-<body>
-
-
+<body class=" bg-black">
+<div class="container-fluid p-3 bg-black text-white text-center ">
+  <!-- <img src="https://phantom-marca.unidadeditorial.es/2a815b0a6f676d55d7403f7285db1b4e/resize/828/f/webp/assets/multimedia/imagenes/2022/02/11/16445345407827.jpg" class="img-fluid" alt="..." width="20%"> -->
+  <div class="col-md-12">
+    <a href="posters.php" class="btn btn-danger btn-lg">Ir a Publicaciones</a>
+  </div>
+</div>
+  
 <div class="container mt-5">
   <div class="row">
     <?php while($row = mysqli_fetch_assoc($result)) { $poster_id = $row['poster_id'] ?>
     <div class="col-md-2">
       <div class="card">
-        <img class="card-img-top" src="<?php echo $row['url_img'];?>" alt="<?php echo $row['name'];?>" style="width:100%">
+        <img class="card-img-top" src="server/uploads/<?php echo $row['url_img'];?>" alt="<?php echo $row['name'];?>" style="width:100%">
         <div class="card-body">
           <div class="card-text"> 
             <p><strong><?php echo $row['name']; ?></strong> </p> 
