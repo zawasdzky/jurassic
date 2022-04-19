@@ -5,21 +5,25 @@ error_reporting(E_ALL);
 
 include 'conn.php';
 
-$name     = $_POST['name'];
-$email    = $_POST['email'];
-$document = $_POST['document'];
-$city     = $_POST['city'];
-$phone    = $_POST['phone'];
+if ( isset($_POST['name']) )     { $name =  filter_var($_POST['name'],FILTER_SANITIZE_STRING);}else{echo "error input name"; die();}
+if ( isset($_POST['email']) )    { $email = filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);}else{echo "error input email"; die();}
+if ( isset($_POST['document']) ) { $document = filter_var($_POST['document'],FILTER_SANITIZE_NUMBER_FLOAT);}else{echo "error input document"; die();}
+if ( isset($_POST['city']) )     { $city = filter_var($_POST['city'],FILTER_SANITIZE_STRING,);}else{echo "error input city"; die();}
+if ( isset($_POST['phone']) )    { $phone = filter_var($_POST['phone'],FILTER_SANITIZE_NUMBER_FLOAT);}else{echo "error input phone"; die();}
+if ( isset($_POST['honey']) && !empty($_POST['honey'])) { echo "security block"; die();}
 
 $target_dir = "uploads/";
+
+$temp = explode(".", $_FILES["fileToUpload"]["name"]);
+$newfilename = $document . '.' . end($temp);
 $nameFile = htmlspecialchars(basename( $_FILES["fileToUpload"]["name"]));
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$target_file = $target_dir . $newfilename;
 $uploadOk = true;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
   // Check if file already exists
   if (file_exists($target_file)) {
-    $message = "Error: el archivo ya existe debe subirlo con otro nombre";
+    $message = "Error: el usuario ya registró un poster anteriormente, el archivo ya existe";
     $uploadOk = false;
   }
 
@@ -42,7 +46,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
       $userInsert = "INSERT INTO `users` (`name`, `email`, `document`, `city`, `phone`) VALUES ('$name', '$email', '$document', '$city', '$phone')";
       $conn->query($userInsert);
       $last_id = mysqli_insert_id($conn);
-      $imageNameInsert = "INSERT INTO `posters` (`user_id`, `url_img`,`votes`,`enabled`) VALUES ('$last_id', '$nameFile', 0, 0)";
+      $imageNameInsert = "INSERT INTO `posters` (`user_id`, `url_img`,`votes`,`enabled`) VALUES ('$last_id', '$newfilename', 0, 0)";
       $conn->query($imageNameInsert);
       mysqli_close($conn);
     } else {

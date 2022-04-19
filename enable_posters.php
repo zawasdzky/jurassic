@@ -44,7 +44,7 @@
 <div class="container-fluid p-3 bg-black text-white text-center ">
   <!-- <img src="https://phantom-marca.unidadeditorial.es/2a815b0a6f676d55d7403f7285db1b4e/resize/828/f/webp/assets/multimedia/imagenes/2022/02/11/16445345407827.jpg" class="img-fluid" alt="..." width="20%"> -->
   <div class="col-md-12">
-    <a href="posters.php" class="btn btn-danger btn-lg">Ir a Publicaciones</a>
+    <a href="index.php" class="btn btn-danger btn-lg">Ir a Publicaciones</a>
   </div>
 </div>
   
