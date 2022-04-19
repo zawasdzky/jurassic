@@ -1,16 +1,30 @@
 
 <?php
   include 'server/conn.php';
-  $sql = "SELECT `posters`.`id` AS `poster_id`, `posters`.`url_img`, `users`.`name` FROM `posters`
+  $sql = "SELECT `posters`.`id` AS `poster_id`, `posters`.`url_img`, `posters`.`enabled`, `users`.`name` FROM `posters`
   JOIN `users` ON `users`.`id` = `posters`.`user_id` 
   ORDER BY `posters`.`enabled` DESC";
   $result = mysqli_query($conn, $sql);
   if(isset($_POST["enable"])) {
-      echo "enable";
+    $poster_id= $_POST['poster_id'];
+    $sql = "UPDATE `posters` SET `enabled`= 1 WHERE `id` = '$poster_id';";
+    if (mysqli_query($conn, $sql)) {
+      echo 200;
+    } else {
+      echo "Error updating record: " . mysqli_error($conn);
     }
+    die();
+    }   
 
   if(isset($_POST["disable"])) {
-    echo "disable";
+    $poster_id= $_POST['poster_id'];
+    $sql = "UPDATE `posters` SET `enabled`= 0 WHERE `id` = '$poster_id';";
+    if (mysqli_query($conn, $sql)) {
+      echo 200;
+    } else {
+      echo "Error updating record: " . mysqli_error($conn);
+    }
+    die();
     }   
 
 ?>
@@ -31,17 +45,19 @@
 
 <div class="container mt-5">
   <div class="row">
-    <?php while($row = mysqli_fetch_assoc($result)) { ?>
-    <div class="col-md-3">
+    <?php while($row = mysqli_fetch_assoc($result)) { $poster_id = $row['poster_id'] ?>
+    <div class="col-md-2">
       <div class="card">
         <img class="card-img-top" src="<?php echo $row['url_img'];?>" alt="<?php echo $row['name'];?>" style="width:100%">
         <div class="card-body">
           <div class="card-text"> 
-            <span> <?php echo $row['name']; ?> </span> 
-            <span> Estado: <?php echo $row['enabled']; ?> </span> 
-            
-            <button class="btn btn-primary" id="vote_btn<?php echo $poster_id;?>" onclick="enable(<?php echo $poster_id;?>)">Aprobar</button> 
-            <button class="btn btn-primary" id="vote_btn<?php echo $poster_id;?>" onclick="enable(<?php echo $poster_id;?>)">Aprobar</button> 
+            <p><strong><?php echo $row['name']; ?></strong> </p> 
+            <?php if ($row['enabled']){?>  
+            <button class="btn btn-danger" id="desaprobar<?php echo $poster_id;?>" onclick="disable(<?php echo $poster_id;?>)">Desaprobar</button> 
+            <?php } ?> 
+            <?php if (!$row['enabled']){?> 
+            <button class="btn btn-success" id="aprobar<?php echo $poster_id;?>" onclick="enable(<?php echo $poster_id;?>)">Aprobar</button> 
+            <?php } ?> 
           </div>
         </div>
       </div>
@@ -52,18 +68,43 @@
 <script>
     function enable(poster_id){
             $.ajax({
-            url: "enable_posters",
+            url: "enable_posters.php",
             type: "POST",
-            data:{ "poster_id":poster_id},
+            data:{ "poster_id":poster_id,"enable":"enable"},
             beforeSend: function() {
-            alert(poster_id);
+            //alert(poster_id);
             },
             success: function(response) {
-            swal("¡Listo!", "Tu voto ha sido enviado", "success");
-            $( vote_btn ).remove();
+              if (response == 200){
+                //swal("¡Listo!", "Poster Activado", "success");
+                location.reload();
+              }else{
+                swal("Error!", response, "danger");
+              }
             },
         });
     }
+
+    function disable(poster_id){
+
+            $.ajax({
+            url: "enable_posters.php",
+            type: "POST",
+            data:{ "poster_id":poster_id,"disable":"disable"},
+            beforeSend: function() {
+            //alert(poster_id);
+            },
+            success: function(response) {
+              if (response == 200){
+                //swal("¡Listo!", "Poster Des-Activado", "success");
+                location.reload();
+              }else{
+                swal("Error!", response, "danger");
+              }
+            },
+        });
+    }
+
 </script>
 </body>
 </html>
