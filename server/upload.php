@@ -41,7 +41,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
       $userInsert = "INSERT INTO `users` (`name`, `email`, `document`, `city`, `phone`) VALUES ('$name', '$email', '$document', '$city', '$phone')";
       $conn->query($userInsert);
       $last_id = mysqli_insert_id($conn);
-      $imageNameInsert = "INSERT INTO `posters` (`user_id`, `url_img`, `votes`) VALUES ('$last_id', '$nameFile', 0)";
+      $imageNameInsert = "INSERT INTO `posters` (`user_id`, `url_img`,`votes`,`enabled`) VALUES ('$last_id', '$nameFile', 0, 0)";
       $conn->query($imageNameInsert);
       mysqli_close($conn);
     } else {

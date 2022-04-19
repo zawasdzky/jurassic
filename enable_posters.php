@@ -3,9 +3,16 @@
   include 'server/conn.php';
   $sql = "SELECT `posters`.`id` AS `poster_id`, `posters`.`url_img`, `users`.`name` FROM `posters`
   JOIN `users` ON `users`.`id` = `posters`.`user_id` 
-  WHERE `posters`.`enabled`=1 
-  ORDER BY `posters`.`id` DESC";
+  ORDER BY `posters`.`enabled` DESC";
   $result = mysqli_query($conn, $sql);
+  if(isset($_POST["enable"])) {
+      echo "enable";
+    }
+
+  if(isset($_POST["disable"])) {
+    echo "disable";
+    }   
+
 ?>
 
 <!DOCTYPE html>
@@ -21,10 +28,6 @@
 </head>
 <body>
 
-<div class="container-fluid p-5 bg-primary text-white text-center">
-  <h1>JURASSIC TITLE</h1>
-  <a href="upload_form.html" class="btn btn-danger">Subir Poster</a>
-</div>
 
 <div class="container mt-5">
   <div class="row">
@@ -35,6 +38,10 @@
         <div class="card-body">
           <div class="card-text"> 
             <span> <?php echo $row['name']; ?> </span> 
+            <span> Estado: <?php echo $row['enabled']; ?> </span> 
+            
+            <button class="btn btn-primary" id="vote_btn<?php echo $poster_id;?>" onclick="enable(<?php echo $poster_id;?>)">Aprobar</button> 
+            <button class="btn btn-primary" id="vote_btn<?php echo $poster_id;?>" onclick="enable(<?php echo $poster_id;?>)">Aprobar</button> 
           </div>
         </div>
       </div>
@@ -42,5 +49,21 @@
     <?php } mysqli_close($conn); ?>
   </div>
 </div>
+<script>
+    function enable(poster_id){
+            $.ajax({
+            url: "enable_posters",
+            type: "POST",
+            data:{ "poster_id":poster_id},
+            beforeSend: function() {
+            alert(poster_id);
+            },
+            success: function(response) {
+            swal("¡Listo!", "Tu voto ha sido enviado", "success");
+            $( vote_btn ).remove();
+            },
+        });
+    }
+</script>
 </body>
 </html>
