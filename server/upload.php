@@ -75,7 +75,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
   
 <div class="container mt-5 text-center">
   <h2 class="m-5"><?php echo $message; ?></h2>
-  <a href="../posters.php" class="btn btn-warning btn-lg">Ver publicaciones</a>
+  <a href="../index.php" class="btn btn-warning btn-lg">Ver publicaciones</a>
 </div>
 
 </body>
