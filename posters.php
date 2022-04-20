@@ -1,4 +1,3 @@
-
 <?php
   include 'server/conn.php';
   $sql = "SELECT `posters`.`id` AS `poster_id`, `posters`.`url_img`, `users`.`name` FROM `posters`
@@ -23,7 +22,7 @@
 <body style="background-color: black;">
 
 <div class="row text-white text-center">
-  <img src="JW3_KV_Cinemas-Procinal-y-Jurassic-World.jpg" class="img-fluid" alt="...">
+  <img src="JW3_KV_Cinemas-Procinal-y-Jurassic-World_rv.jpg" class="img-fluid" alt="...">
   <div class="col-md-12 p-3">
     <a href="upload_form.html" class="btn btn-danger btn-lg">SUBE AQUÍ TU POSTER</a><br><br>
       <a href="https://procinal.com/uploads/DESCARGAS/Terminos%20y%20condiciones%20Jurassic%20World.pdf" target="_blank">Lee aquí los términos y condiciones </a>
