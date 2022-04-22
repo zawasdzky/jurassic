@@ -1,3 +1,4 @@
+
 <?php
   include 'server/conn.php';
   $sql = "SELECT `posters`.`id` AS `poster_id`, `posters`.`url_img`, `users`.`name` FROM `posters`
@@ -18,24 +19,16 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+
 </head>
 <body style="background-color: black;">
 
-<div class="row text-white text-center">
-  <img src="JW3_KV_Cinemas-Procinal-y-Jurassic-World_rv.jpg" class="img-fluid" alt="...">
-  <div class="col-md-12 p-3">
-    <a href="upload_form.html" class="btn btn-danger btn-lg">SUBE AQUÍ TU POSTER</a><br><br>
-      <a href="https://procinal.com/uploads/DESCARGAS/Terminos%20y%20condiciones%20Jurassic%20World.pdf" target="_blank">Lee aquí los términos y condiciones </a>
-  </div>
-</div>
-
-
 
 <div class="container">
-  <div class="row" data-masonry='{"percentPosition": true }'>
+  <div class="row">
     <?php while($row = mysqli_fetch_assoc($result)) { ?>
     <div class="col-md-3">
-      <div class="card my-2">
+      <div class="card my-3">
         <img class="card-img-top" src="server/uploads/<?php echo $row['url_img'];?>" alt="<?php echo $row['name'];?>" style="width:100%">
         <div class="card-body">
           <div class="card-text"> 
