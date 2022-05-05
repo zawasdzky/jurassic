@@ -15,7 +15,7 @@
 <body style="background-color: black;">
 
 <div class="row text-white text-center">
-  <img src="JW3_KV_Cinemas-Procinal-y-Jurassic-World_rv.jpg" class="img-fluid" alt="...">
+  <img src="JW3_Concursoposter jurassic junio.webp" class="img-fluid" alt="...">
   <div class="col-md-12 p-3">
     <a href="upload_form.html" class="btn btn-danger btn-lg" class="my-3">SUBE AQUÍ TU POSTER</a><br><br>
     <a href="posters.php" class="btn btn-warning btn-lg" class="my-3">VER PARTICIPANTES</a><br><br>

@@ -1,4 +1,13 @@
 
+<?php
+  include 'server/conn.php';
+  $sql = "SELECT `posters`.`id` AS `poster_id`, `posters`.`url_img`, `users`.`name` FROM `posters`
+  JOIN `users` ON `users`.`id` = `posters`.`user_id` 
+  WHERE `posters`.`enabled`=1 
+  ORDER BY `posters`.`id` DESC";
+  $result = mysqli_query($conn, $sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,16 +23,23 @@
 </head>
 <body style="background-color: black;">
 
-<div class="row text-white text-center">
-  <img src="JW3_Concursoposter jurassic junio.webp" class="img-fluid" alt="...">
-  <div class="col-md-12 p-3">
-    <a href="upload_form.html" class="btn btn-danger btn-lg" class="my-3">SUBE AQUÍ TU POSTER</a><br><br>
-    <a href="posters.php" class="btn btn-warning btn-lg" class="my-3">VER PARTICIPANTES</a><br><br>
-      <a href="https://procinal.com/uploads/DESCARGAS/Terminos%20y%20condiciones%20Jurassic%20World.pdf" target="_blank">Lee aquí los términos y condiciones </a>
+
+<div class="container">
+  <div class="row">
+    <?php while($row = mysqli_fetch_assoc($result)) { ?>
+    <div class="col-md-3">
+      <div class="card my-3">
+        <img class="card-img-top" src="server/uploads/<?php echo $row['url_img'];?>" alt="<?php echo $row['name'];?>" style="width:100%">
+        <div class="card-body">
+          <div class="card-text"> 
+            <span> <?php echo $row['name']; ?> </span> 
+          </div>
+        </div>
+      </div>
+    </div>
+    <?php } mysqli_close($conn); ?>
   </div>
-
 </div>
-
 
 <footer class="bg-light text-center text-lg-start">
   <!-- Copyright -->

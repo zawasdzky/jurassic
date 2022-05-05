@@ -1,11 +1,22 @@
 
 <?php
+
+if ( isset($_GET['page']) ) { $page = intval($_GET['page']) -1; }else{$page = 0;}
+  $limit = 5; 
+  $offset = $limit * $page;
   include 'server/conn.php';
+
   $sql = "SELECT `posters`.`id` AS `poster_id`, `posters`.`url_img`, `users`.`name` FROM `posters`
   JOIN `users` ON `users`.`id` = `posters`.`user_id` 
-  WHERE `posters`.`enabled`=1 
-  ORDER BY `posters`.`id` DESC";
+  WHERE `posters`.`enabled`= 1 
+  ORDER BY `posters`.`id` DESC
+  LIMIT 5 OFFSET $offset";
   $result = mysqli_query($conn, $sql);
+
+  $sqlCount = "SELECT COUNT(*) AS total FROM `posters` WHERE `posters`.`enabled`= 1";
+  $resultCount = mysqli_query($conn, $sqlCount);
+  $row = mysqli_fetch_assoc($resultCount);
+  $postersTotales = $row['total'];
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +50,21 @@
     </div>
     <?php } mysqli_close($conn); ?>
   </div>
+
+  <div class="row text-center">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      </ul>
+    </nav>
+  </div>
+
 </div>
+
 
 <footer class="bg-light text-center text-lg-start">
   <!-- Copyright -->
@@ -51,6 +76,17 @@
   <!-- Copyright -->
 </footer>
 
+<script>
+  let scroll =0;
+  $(window).on("scroll", function() {
+    var scrollHeight = $(document).height();
+    var scrollPosition = $(window).height() + $(window).scrollTop();
+    if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+      scroll = scroll + 5;
+      //alert(scroll);
+    }
+  });
+</script>
 
 </body>
 </html>
