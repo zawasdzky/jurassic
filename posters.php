@@ -1,22 +1,23 @@
-
 <?php
-
-if ( isset($_GET['page']) ) { $page = intval($_GET['page']) -1; }else{$page = 0;}
-  $limit = 5; 
+if ( isset($_GET['page']) ) { $page = intval($_GET['page']); }else{$page = 1;}
+  if($page<1){$page=1;}
+  $limit = 8; 
   $offset = $limit * $page;
+  $offset--;
   include 'server/conn.php';
 
   $sql = "SELECT `posters`.`id` AS `poster_id`, `posters`.`url_img`, `users`.`name` FROM `posters`
   JOIN `users` ON `users`.`id` = `posters`.`user_id` 
   WHERE `posters`.`enabled`= 1 
   ORDER BY `posters`.`id` DESC
-  LIMIT 5 OFFSET $offset";
+  LIMIT $limit OFFSET $offset";
   $result = mysqli_query($conn, $sql);
 
   $sqlCount = "SELECT COUNT(*) AS total FROM `posters` WHERE `posters`.`enabled`= 1";
   $resultCount = mysqli_query($conn, $sqlCount);
   $row = mysqli_fetch_assoc($resultCount);
   $postersTotales = $row['total'];
+  $buttons = floor($postersTotales/$limit);
 ?>
 
 <!DOCTYPE html>
@@ -51,18 +52,24 @@ if ( isset($_GET['page']) ) { $page = intval($_GET['page']) -1; }else{$page = 0;
     <?php } mysqli_close($conn); ?>
   </div>
 
-  <div class="row text-center">
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-      </ul>
-    </nav>
+  <div class="row justify-content-md-center mt-3">
+    <div class="col-md-auto">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <?php if($page>1){?>
+          <li class="page-item"><a class="page-link" href="?page=<?php echo $page-1;?>">Anterior</a></li>
+          <?php } ?>
+            <?php for ($i=1; $i <= $buttons ; $i++) { ?>
+              <?php $active=""; if($i==$page){$active="active";}?>
+              <li class="page-item <?php echo $active;?>"><a class="page-link" href="?page=<?php echo $i;?>"><?php echo $i;?></a></li>
+            <?php } ?>
+            <?php if($page<$buttons){?>
+              <li class="page-item"><a class="page-link" href="?page=<?php echo $page+1;?>">Siguiente</a></li>
+            <?php } ?>
+        </ul>
+      </nav>
+    </div>
   </div>
-
 </div>
 
 
