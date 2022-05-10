@@ -1,11 +1,10 @@
 <?php
-if ( isset($_GET['page']) ) { $page = intval($_GET['page']); }else{$page = 1;}
+if ( isset($_GET['page']) ) { $page = intval($_GET['page']); } else { $page = 1; }
   if($page<1){$page=1;}
-  $limit = 8; 
-  $offset = $limit * $page;
-  $offset--;
+  $limit = 16; 
+  $offset = $limit * ($page-1);
   include 'server/conn.php';
-
+  mysqli_set_charset($conn,"utf8");
   $sql = "SELECT `posters`.`id` AS `poster_id`, `posters`.`url_img`, `users`.`name` FROM `posters`
   JOIN `users` ON `users`.`id` = `posters`.`user_id` 
   WHERE `posters`.`enabled`= 1 
@@ -29,15 +28,12 @@ if ( isset($_GET['page']) ) { $page = intval($_GET['page']); }else{$page = 1;}
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
-
 </head>
 <body style="background-color: black;">
 
 
 <div class="container">
-  <div class="row">
+  <div class="row" data-masonry='{"percentPosition": true }'>
     <?php while($row = mysqli_fetch_assoc($result)) { ?>
     <div class="col-md-3">
       <div class="card my-3">
@@ -83,17 +79,8 @@ if ( isset($_GET['page']) ) { $page = intval($_GET['page']); }else{$page = 1;}
   <!-- Copyright -->
 </footer>
 
-<script>
-  let scroll =0;
-  $(window).on("scroll", function() {
-    var scrollHeight = $(document).height();
-    var scrollPosition = $(window).height() + $(window).scrollTop();
-    if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
-      scroll = scroll + 5;
-      //alert(scroll);
-    }
-  });
-</script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
 
 </body>
 </html>
